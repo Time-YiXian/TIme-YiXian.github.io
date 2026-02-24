@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-YiXian.github.io - Personal website</title>
+    <meta name="author" content="Time YiXian">
+
+    <!-- favicon & Tailwind & FontAwesome -->
+    <link rel="icon" href="assets/images/favicon.ico">
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind css config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                        // 自定义颜色主题
+                        colors: {
+                            primary: '#007AFF',      // 苹果蓝（主色）
+                            secondary: '#5856D6',    // 紫色（辅助色）
+                            accent: '#FF2D55',       // 粉色（强调色）
+                            dark: '#0A0E27',         // 深色背景
+                            'dark-light': '#1A1F3A', // 浅深色背景
+                            light: '#F5F5F7',        // 白天背景
+                        },
+                        // 自定义字体
+                        fontFamily: {
+                            'modern': ['Inter', 'sans-serif'],     // 现代无衬线字体
+                            'system': ['system-ui', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'sans-serif'], // 系统字体栈
+                        },
+                        // 自定义动画
+                        animation: {
+                            'float': 'float 6s ease-in-out infinite',             // 漂浮动画
+                            'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate', // 脉冲发光
+                            'slide-up': 'slide-up 0.9s ease-out',                 // 上滑出现
+                            'bounce-gentle': 'bounce-gentle 2s ease-in-out infinite', // 轻微弹跳
+                            'gradient-shift': 'gradient-shift 3s ease-in-out infinite alternate', // 渐变位移
+                        },
+                        // 动画关键帧定义
+                        keyframes: {
+                            float: {
+                                '0%, 100%': { transform: 'translateY(0px)' },
+                                '50%': { transform: 'translateY(-20px)' },
+                            },
+                            'pulse-glow': {
+                                '0%': { boxShadow: '0 0 20px rgba(0, 122, 255, 0.5)' },
+                                '100%': { boxShadow: '0 0 40px rgba(0, 122, 255, 0.8)' },
+                            },
+                            'slide-up': {
+                                '0%': { transform: 'translateY(50px)', opacity: '0' },
+                                '100%': { transform: 'translateY(0)', opacity: '1' },
+                            },
+                            'bounce-gentle': {
+                                '0%, 100%': { transform: 'translateY(0)' },
+                                '50%': { transform: 'translateY(-10px)' },
+                            },
+                            'gradient-shift': {
+                                '0%': { backgroundPosition: '0% 50%' },
+                                '100%': { backgroundPosition: '100% 50%' },
+                            },
+                        },
+                    },
+            }
+        }
+    </script>
+
+    <!-- 自定义工具类样式 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            /* 玻璃拟态效果（更明显的边框与更强的高斯模糊） */
+            .glass-effect {
+                background: rgba(26, 31, 58, 0.22);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                border: 1px solid rgba(255,255,255,0.06);
+                box-shadow: 0 6px 30px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+            }
+            /* 渐变文字效果 */
+            .text-gradient {
+                background: linear-gradient(45deg, #007AFF, #5856D6, #FF2D55);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            /* 赛博朋克渐变背景 */
+            .bg-gradient-cyber {
+                background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 50%, #0A0E27 100%);
+            }
+            /* 头像 */
+            .avatar {
+                border-radius: 1.5rem;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+            .avatar:hover {
+                transform: scale(1.05);
+                box-shadow: 0 10px 30px rgba(0, 122, 255, 0.4);
+            }
+            /* 卡片 */
+            .card {
+                border-radius: 20px;
+                backdrop-filter: blur(20px);
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+    </style>
+
+    <!-- WebKit browsers自定义滚动条样式 -->
+    <style>
+            :root{
+            --scroll-track: rgba(10,14,39,0.18);
+            --scroll-thumb-start: #007AFF;
+            --scroll-thumb-end: #5856D6;
+        }
+        ::-webkit-scrollbar { width: 12px; height: 12px; }
+        ::-webkit-scrollbar-track { background: var(--scroll-track); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--scroll-thumb-start), var(--scroll-thumb-end));
+            border-radius: 9999px; border: 3px solid transparent; background-clip: padding-box;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+        }
+    </style>
+    <!-- Navbar transition and expanded state -->
+    <style>
+        #siteNavbar {
+            transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+            position: fixed;
+            top: 20px;
+            left: 25%;
+            width: 50%;
+            height: 64px;
+            background: rgba(26,31,58,0.22);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.38);
+            z-index: 50;
+            border-radius: 12px;
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Expanded state on scroll */
+        #siteNavbar.site-navbar-expanded {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 64px;
+            max-width: none;
+            border-radius: 0;
+            padding-left: 40px;
+            padding-right: 40px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+        }
+
+        /* Responsive adjustments from 导航栏.html */
+        @media (max-width: 1200px) {
+            #siteNavbar { left: 15%; width: 70%; padding-left: 24px; padding-right: 24px; }
+            #siteNavbar.site-navbar-expanded { padding-left: 32px; padding-right: 32px; }
+        }
+
+        @media (max-width: 992px) {
+            #siteNavbar { left: 10%; width: 80%; }
+        }
+
+        @media (max-width: 768px) {
+            #siteNavbar { left: 5%; width: 90%; height: 72px; }
+            #siteNavbar.site-navbar-expanded { height: 64px; padding-left: 24px; padding-right: 24px; }
+        }
+
+        /* Language hover/expand styles */
+        .lang-wrapper { display: inline-block; position: relative; }
+        .lang-toggle { width: 56px; transition: width 250ms cubic-bezier(0.2,0,0,1), background-color 200ms; overflow: hidden; white-space: nowrap; }
+        .lang-wrapper:hover .lang-toggle { width: 100px; background-color: rgba(255,255,255,0.14); }
+        #langDropdown { transition: opacity 180ms cubic-bezier(0.2,0,0,1), transform 180ms; will-change: transform, opacity; z-index: 60; }
+        .lang-wrapper.open #langDropdown, .lang-wrapper:hover #langDropdown { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .lang-wrapper #langDropdown { transform: translateY(-6px) scale(0.98); opacity: 0; pointer-events: none; }
+
+        /* 移动端菜单定位修复：相对于导航栏绝对定位，避免在小屏幕上错位 */
+        #siteNavbar #mobileMenu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            width: 100%;
+            margin-top: 0; /* 覆盖原有 mt-4 带来的额外间距 */
+            z-index: 55; /* 确保高于页面内容但低于必要的弹出层 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+            border-radius: 12px;
+            background-clip: padding-box;
+        }
+
+        @media (max-width: 768px) {
+            /* 在小屏时确保 mobileMenu 的左右对齐与导航栏一致 */
+            #siteNavbar #mobileMenu { left: 0; right: 0; width: 100%; }
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-white font-modern overflow-x-hidden">
+    <!-- 背景 -->
+    <div class="fixed inset-0 z-0" style="background: linear-gradient(114514deg, rgba(10,14,39,0.85), rgba(26,31,58,0.55) 50%, rgba(10,14,39,0.85)),url('assets/images/15.png') center/cover no-repeat;"></div>
+    <!-- 导航栏 -->
+    <nav id="siteNavbar" class="fixed z-50 bg-black/50 backdrop-blur-md rounded-2xl px-4 py-2">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo区域 -->
+                <a href="#home" class="flex items-center space-x-3">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fas fa-code text-lg"></i>
+                        </div>
+                    <span class="text-2xl font-system font-bold text-gradient">Hello！YiXian</span>
+                </a>
+
+
+                <!-- 桌面端导航栏菜单 - 大屏显示 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" data-i18n="nav.home" class="nav-link font-semibold text-lg md:text-xl hover:text-primary transition-colors duration-300">Home</a>
+                    <a href="#about" data-i18n="nav.about" class="nav-link font-semibold text-lg md:text-xl hover:text-primary transition-colors duration-300">About</a>
+                    <a href="#contact" data-i18n="nav.contact" class="nav-link font-semibold text-lg md:text-xl hover:text-primary transition-colors duration-300">Contact</a>
+                </div>
+
+                <!-- 右侧：语言切换 + 移动菜单按钮 -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative lang-wrapper">
+                        <button id="langBtn" class="px-3 py-1 bg-white/10 text-white rounded-md text-sm lang-toggle" aria-expanded="false">EN</button>
+                        <div id="langDropdown" class="absolute right-0 mt-0 w-25 bg-black/40 rounded-md shadow-lg py-1 opacity-0 pointer-events-none transform -translate-y-1 scale-0">
+                            <button data-lang="en" class="w-full text-center px-3 py-2 text-white hover:bg-white/10">EN</button>
+                            <button data-lang="cn" class="w-full text-center px-3 py-2 text-white hover:bg-white/10">中文</button>
+                        </div>
+                    </div>
+
+                    <button id="menuBtn" class="md:hidden text-2xl text-white" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div id="mobileMenu" class="md:hidden hidden mt-4 bg-black/30 rounded-xl">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-3">
+                <a href="#home" data-i18n="nav.home" class="nav-link font-semibold text-lg hover:text-primary transition-colors duration-300 py-2">Home</a>
+                <a href="#about" data-i18n="nav.about" class="nav-link font-semibold text-lg hover:text-primary transition-colors duration-300 py-2">About</a>
+                <a href="#contact" data-i18n="nav.contact" class="nav-link font-semibold text-lg hover:text-primary transition-colors duration-300 py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页区域 - 全屏显示，底部布局 -->
+    <section id="home" class="min-h-screen flex items-end justify-center relative z-10 pt-20 pb-16">
+        <div class="container mx-auto px-6 text-center">
+            <!-- 个人介绍文本 -->
+            <div class="animate-slide-up">
+                <h1 class="text-4xl md:text-6xl font-system font-bold mb-6">
+                    <span class="text-gradient">YiXian</span> <span>·</span> <span class="text-primary">Developer</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    A junior developer who loves technology and design<br>Focusing on creating elegant digital experiences
+                </p>
+                <!-- 行动按钮组 -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#about" class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-full text-white font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <span data-i18n="cta.learn">Learn More</span>
+                    </a>
+                    <a href="#contact" class="px-8 py-4 glass-effect rounded-full text-white font-semibold hover:bg-primary/20 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-envelope mr-2"></i>
+                        <span data-i18n="cta.contact">Contact Me</span>
+                    </a>
+                </div>
+            </div>
+    </section>
+
+    <!-- About区域 -->
+    <section id="about" class="py-20 relative z-10">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <!-- 区域标题 -->
+            <div class="text-center mb-20">
+                <h2 data-i18n="about.title" class="text-4xl md:text-6xl font-system font-bold text-gradient mb-4">About Me</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="md:col-span-1">
+                    <div class="card p-6 text-center flex flex-col items-center justify-center">
+                        <div class="w-32 h-32 avatar mb-6 shadow-xl">
+                            <img src="assets\images\头像.jpg" alt="个人头像" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-2xl font-bold">Time YiXian</h3>
+                        <p class="text-primary font-medium text-sm mt-1">junior Developer | 玩机爱好者 | 学生 | 技术爱好者</p>
+                    </div>
+
+                <!-- 快速信息网格 -->
+                    <!-- 基本信息卡片 -->
+                    <div class="card p-6" style="margin-top: 1rem">
+                        <h4 data-i18n="basic.title" class="text-lg font-system font-bold text-secondary mb-4">Basic Information</h4>
+                        <div class="space-y-3 text-sm text-gray-300">
+                            <div class="flex justify-between"><span class="text-gray-400">Name:</span><span>YiXian</span></div>
+                            <div class="flex justify-between"><span class="text-gray-400">Location:</span><span>China</span></div>
+                            <div class="flex justify-between"><span class="text-gray-400">Education:</span><span>Vocational School</span></div>
+                            <div class="flex justify-between"><span class="text-gray-400">Experience:</span><span>5 Years+</span></div>
+                        </div>
+                    </div>
+
+                    <!-- 个人兴趣卡片 -->
+                    <div class="card p-6" style="margin-top: 1rem">
+                        <h4 data-i18n="interests.title" class="text-lg font-system font-bold text-accent mb-4">Personal Interests</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs">Programming</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Design</span>
+                            <span class="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs">Reading</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs">Music</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Travel</span>
+                            <span class="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs">Photography</span>
+                        </div>
+                    </div>
+            </div>
+                <!-- 个人简介卡片 -->
+                <div class="md:col-span-2 max-w-1xl mx-auto">
+                <div class="card p-8 mb-8">
+                    <h4 data-i18n="profile.title" class="text-xl font-system font-bold text-primary mb-4">Profile</h4>
+                    <div class="text-gray-300 leading-relaxed space-y-4">
+                        <p>I am a passionate junior developer who loves technology and design, and I am gradually learning various popular programming frameworks and development tools in my spare time. I excel at creating elegant, efficient, and user-friendly digital products, and I am proficient in everything from interface design to functional implementation.</p>
+                        <p>I always maintain curiosity about new technologies, constantly learning and exploring the latest development frameworks and design trends.My goal is to create beautiful user experiences through technology, making complex functions simple and easy to use.</p>
+                        <p>In my spare time, I enjoy reading books, listening to music, and exploring new design concepts.I believe in the power of technology to change the world, and I am working hard towards this goal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Me页 -->
+    <section id="contact" class="py-20 relative z-10">
+        <div class="container mx-auto px-6">
+            <!-- 区域标题 -->
+            <div class="text-center mb-16">
+                <h2 data-i18n="contact.title" class="text-4xl md:text-6xl font-system font-bold text-gradient mb-4">Contact Me</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+                <p class="text-gray-300 mt-4 max-w-2xl mx-auto">Feel free to contact me for any cooperation opportunities or technical exchanges</p>
+            </div>
+            <!-- 联系信息卡片 - 双列网格布局 -->
+            <div class="card p-8 max-w-4xl mx-auto">
+                <h3 data-i18n="contact.info" class="text-2xl font-bold text-primary mb-6">Contact Information</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex items-center space-x-4 p-4 bg-dark/50 rounded-lg hover:bg-primary/10 transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center"><i class="fas fa-envelope text-primary text-xl"></i></div>
+                        <div class="min-w-0"><p data-i18n="label.email" class="text-gray-300 text-sm">Email</p><p class="font-semibold truncate">yixian@gmail.com</p></div>
+                    </div>
+
+                    <div class="flex items-center space-x-4 p-4 bg-dark/50 rounded-lg hover:bg-secondary/10 transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center"><i class="fab fa-github text-secondary text-xl"></i></div>
+                        <div class="min-w-0"><p data-i18n="label.github" class="text-gray-300 text-sm">GitHub</p><p class="font-semibold truncate">Time-YiXian</p></div>
+                    </div>
+
+                    <div class="flex items-center space-x-4 p-4 bg-dark/50 rounded-lg hover:bg-[#07C160]/10 transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-[#07C160]/20 flex items-center justify-center"><i class="fab fa-weixin text-[#07C160] text-xl"></i></div>
+                        <div class="min-w-0"><p data-i18n="label.wechat" class="text-gray-300 text-sm">WeChat</p><p class="font-semibold truncate">Time_YiXian</p></div>
+                    </div>
+
+                    <div class="flex items-center space-x-4 p-4 bg-dark/50 rounded-lg hover:bg-[#12B7F5]/10 transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-[#12B7F5]/20 flex items-center justify-center"><i class="fab fa-qq text-[#12B7F5] text-xl"></i></div>
+                        <div class="min-w-0"><p class="text-gray-300 text-sm">QQ</p><p class="font-semibold truncate">261422424</p></div>
+                    </div>
+
+                    <div class="flex items-center space-x-4 p-4 bg-dark/50 rounded-lg hover:bg-primary/10 transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center"><i class="fas fa-map-marker-alt text-primary text-xl"></i></div>
+                        <div class="min-w-0"><p data-i18n="label.location" class="text-gray-300 text-sm">Location</p><p class="font-semibold truncate">Shandong, China</p></div>
+                    </div>
+
+                    <div class="flex items-center space-x-4 p-4 bg-dark/50 rounded-lg hover:bg-accent/10 transition-colors">
+                        <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center"><i class="fab fa-tiktok text-accent text-xl"></i></div>
+                        <div class="min-w-0"><p data-i18n="label.douyin" class="text-gray-300 text-sm">Douyin</p><p class="font-semibold truncate">timeyixian</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="py-12 bg-dark-light/80 relative z-10 border-t border-gray-800">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center"><i class="fas fa-code"></i></div>
+                <span class="text-xl font-system font-bold text-gradient">YiXian</span>
+            </div>
+            <p class="text-gray-400 mb-6 max-w-2xl mx-auto">A junior developer who loves technology and design, focusing on creating elegant digital experiences. Thank you for visiting.</p>
+            <div class="border-t border-gray-800 pt-6">
+                <p class="text-gray-500 text-sm">© 2026 YiXian.github.io All rights reserved. | <span class="text-primary">Designed with ❤️ by Time YiXian</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript功能脚本 -->
+    <script>
+        // 1. 移动端菜单切换功能
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // 更新 aria-expanded 以支持无障碍
+            const isExpanded = !mobileMenu.classList.contains('hidden');
+            menuBtn.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // 2. 平滑滚动功能 - 点击导航链接平滑滚动到对应区域
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // 关闭移动端菜单
+                    mobileMenu.classList.add('hidden');
+
+                    // 平滑滚动到目标位置
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 3. 节流函数 - 限制函数执行频率
+        function throttle(func, delay) {
+            let lastCall = 0;
+            return function(...args) {
+                const now = Date.now();
+                if (now - lastCall >= delay) {
+                    lastCall = now;
+                    func.apply(this, args);
+                }
+            };
+        }
+
+        // 5. 滚动动画观察器 - 元素进入视口时添加动画
+        function observeElements() {
+            // 创建IntersectionObserver实例
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // 元素进入视口时添加动画类
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, {
+                threshold: 0.1 // 元素可见10%时触发
+            });
+
+            // 观察所有卡片
+            document.querySelectorAll('.card').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // 页面加载完成后初始化所有功能
+        window.addEventListener('load', () => {
+            observeElements();    // 初始化滚动动画观察器
+        });
+    </script>
+    <script>
+        (function(){
+            const translations = {
+                en: { 'nav.home':'Home','nav.about':'About','nav.contact':'Contact','cta.learn':'Learn More','cta.contact':'Contact Me','about.title':'About Me','contact.title':'Contact Me','profile.title':'Profile','basic.title':'Basic Information','interests.title':'Personal Interests','contact.info':'Contact Information','label.email':'Email','label.github':'GitHub','label.wechat':'WeChat','label.location':'Location' },
+                cn: { 'nav.home':'首页','nav.about':'关于','nav.contact':'联系','cta.learn':'了解更多','cta.contact':'联系我','about.title':'关于我','contact.title':'联系我','profile.title':'个人简介','basic.title':'基本信息','interests.title':'个人兴趣','contact.info':'联系信息','label.email':'邮箱','label.github':'GitHub','label.wechat':'微信','label.location':'地点' }
+            };
+
+                function applyLang(lang){
+                    document.querySelectorAll('[data-i18n]').forEach(el => {
+                        const key = el.getAttribute('data-i18n');
+                        const val = (translations[lang] && translations[lang][key]) || (translations.en && translations.en[key]) || el.textContent;
+                        el.textContent = val;
+                    });
+                    const lb = document.getElementById('langBtn');
+                    if(lb) lb.textContent = (lang === 'cn') ? '中文' : 'EN';
+                    try{ localStorage.setItem('siteLang', lang); } catch(e){}
+                }
+
+                const stored = localStorage.getItem('siteLang');
+                const defaultLang = stored || (navigator.language && navigator.language.startsWith('zh') ? 'cn' : 'en');
+                applyLang(defaultLang);
+
+                const langBtn = document.getElementById('langBtn');
+                const langDropdown = document.getElementById('langDropdown');
+                const langWrapper = langBtn ? langBtn.closest('.lang-wrapper') : null;
+
+                function updateLangAria() {
+                    if(!langBtn || !langWrapper) return;
+                    const isOpen = langWrapper.classList.contains('open') || langWrapper.classList.contains('open-persistent');
+                    langBtn.setAttribute('aria-expanded', isOpen);
+                }
+
+                if(langBtn){
+                    // 点击切换为“持久打开(open-persistent)”状态，不与悬浮冲突
+                    langBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if(!langWrapper) return;
+                        const nowPersistent = langWrapper.classList.toggle('open-persistent');
+                        if(nowPersistent) {
+                            // 保证显示
+                            langWrapper.classList.add('open');
+                        } else {
+                            // 如果未悬浮，则隐藏
+                            if(!langWrapper.dataset.hover || langWrapper.dataset.hover !== 'true') {
+                                langWrapper.classList.remove('open');
+                            }
+                        }
+                        updateLangAria();
+                    });
+                }
+
+                // 点击页面空白处关闭（包括持久状态）
+                document.addEventListener('click', () => {
+                    if(langWrapper) {
+                        langWrapper.classList.remove('open');
+                        langWrapper.classList.remove('open-persistent');
+                        langBtn && langBtn.setAttribute('aria-expanded','false');
+                    }
+                });
+
+                // 语言选项点击后关闭菜单（并保存选择）
+                document.querySelectorAll('#langDropdown [data-lang]').forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const l = b.getAttribute('data-lang');
+                        applyLang(l);
+                        if(langWrapper) {
+                            langWrapper.classList.remove('open');
+                            langWrapper.classList.remove('open-persistent');
+                            langBtn && langBtn.setAttribute('aria-expanded','false');
+                        }
+                    });
+                });
+
+            // 鼠标进入/离开支持：悬浮为临时展开，不会覆盖持久展开
+            if(langWrapper) {
+                langWrapper.addEventListener('mouseenter', () => {
+                    langWrapper.dataset.hover = 'true';
+                    langWrapper.classList.add('open');
+                    langBtn && langBtn.setAttribute('aria-expanded','true');
+                });
+                langWrapper.addEventListener('mouseleave', () => {
+                    langWrapper.dataset.hover = 'false';
+                    // 仅当未设置持久打开时才收起
+                    if(!langWrapper.classList.contains('open-persistent')) {
+                        langWrapper.classList.remove('open');
+                        langBtn && langBtn.setAttribute('aria-expanded','false');
+                    } else {
+                        langBtn && langBtn.setAttribute('aria-expanded','true');
+                    }
+                });
+            }
+        })();
+    </script>
+    <script>
+        (function(){
+            const nav = document.getElementById('siteNavbar');
+            if(!nav) return;
+            let rafId = null;
+            function update() {
+                if(window.scrollY > 91) {
+                    nav.classList.add('site-navbar-expanded');
+                } else {
+                    nav.classList.remove('site-navbar-expanded');
+                }
+            }
+            function onScroll(){
+                if(rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(update);
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            // init
+            update();
+        })();
+    </script>
+</body>
+</html>
