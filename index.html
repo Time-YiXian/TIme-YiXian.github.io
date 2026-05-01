@@ -278,6 +278,7 @@
                     </a>
                 </div>
             </div>
+        </div>
     </section>
 
     <!-- About区域 -->
@@ -301,7 +302,7 @@
 
                 <!-- 快速信息网格 -->
                     <!-- 基本信息卡片 -->
-                    <div class="card p-6" style="margin-top: 1rem">
+                    <div class="card p-6 mt-4">
                         <h4 data-i18n="basic.title" class="text-lg font-system font-bold text-secondary mb-4">Basic Information</h4>
                         <div class="space-y-3 text-sm text-gray-300">
                             <div class="flex justify-between"><span class="text-gray-400">Name:</span><span>YiXian</span></div>
@@ -312,7 +313,7 @@
                     </div>
 
                     <!-- 个人兴趣卡片 -->
-                    <div class="card p-6" style="margin-top: 1rem">
+                    <div class="card p-6 mt-4">
                         <h4 data-i18n="interests.title" class="text-lg font-system font-bold text-accent mb-4">Personal Interests</h4>
                         <div class="flex flex-wrap gap-2">
                             <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs">Programming</span>
@@ -325,7 +326,7 @@
                     </div>
             </div>
                 <!-- 个人简介卡片 -->
-                <div class="md:col-span-2 max-w-1xl mx-auto">
+                <div class="md:col-span-2 mx-auto">
                 <div class="card p-8 mb-8">
                     <h4 data-i18n="profile.title" class="text-xl font-system font-bold text-primary mb-4">Profile</h4>
                     <div class="text-gray-300 leading-relaxed space-y-4">
@@ -377,7 +378,7 @@
 
                     <div class="flex items-center space-x-4 p-4 bg-dark/50 rounded-lg hover:bg-accent/10 transition-colors">
                         <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center"><i class="fab fa-tiktok text-accent text-xl"></i></div>
-                        <div class="min-w-0"><p data-i18n="label.douyin" class="text-gray-300 text-sm">Douyin</p><p class="font-semibold truncate">timeyixian</p></div>
+                        <div class="min-w-0"><p class="text-gray-300 text-sm">Douyin</p><p class="font-semibold truncate">timeyixian</p></div>
                     </div>
                 </div>
             </div>
@@ -400,7 +401,7 @@
 
     <!-- JavaScript功能脚本 -->
     <script>
-        // 1. 移动端菜单切换功能
+        //移动端菜单切换功能
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
 
@@ -411,7 +412,7 @@
             menuBtn.setAttribute('aria-expanded', isExpanded);
         });
 
-        // 2. 平滑滚动功能 - 点击导航链接平滑滚动到对应区域
+        //平滑滚动功能 - 点击导航链接平滑滚动到对应区域
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -430,19 +431,7 @@
             });
         });
 
-        // 3. 节流函数 - 限制函数执行频率
-        function throttle(func, delay) {
-            let lastCall = 0;
-            return function(...args) {
-                const now = Date.now();
-                if (now - lastCall >= delay) {
-                    lastCall = now;
-                    func.apply(this, args);
-                }
-            };
-        }
-
-        // 5. 滚动动画观察器 - 元素进入视口时添加动画
+        //滚动动画观察器 - 元素进入视口时添加动画
         function observeElements() {
             // 创建IntersectionObserver实例
             const observer = new IntersectionObserver((entries) => {
@@ -456,13 +445,13 @@
                 threshold: 0.1 // 元素可见10%时触发
             });
 
-            // 观察所有卡片
+            //观察所有卡片
             document.querySelectorAll('.card').forEach(el => {
                 observer.observe(el);
             });
         }
 
-        // 页面加载完成后初始化所有功能
+        //页面加载完成后初始化所有功能
         window.addEventListener('load', () => {
             observeElements();    // 初始化滚动动画观察器
         });
@@ -500,16 +489,16 @@
                 }
 
                 if(langBtn){
-                    // 点击切换为“持久打开(open-persistent)”状态，不与悬浮冲突
+                    //点击切换为“持久打开(open-persistent)”状态，不与悬浮冲突
                     langBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         if(!langWrapper) return;
                         const nowPersistent = langWrapper.classList.toggle('open-persistent');
                         if(nowPersistent) {
-                            // 保证显示
+                            //保证显示
                             langWrapper.classList.add('open');
                         } else {
-                            // 如果未悬浮，则隐藏
+                            //如果未悬浮，则隐藏
                             if(!langWrapper.dataset.hover || langWrapper.dataset.hover !== 'true') {
                                 langWrapper.classList.remove('open');
                             }
@@ -518,7 +507,7 @@
                     });
                 }
 
-                // 点击页面空白处关闭（包括持久状态）
+                //点击页面空白处关闭
                 document.addEventListener('click', () => {
                     if(langWrapper) {
                         langWrapper.classList.remove('open');
@@ -527,7 +516,7 @@
                     }
                 });
 
-                // 语言选项点击后关闭菜单（并保存选择）
+                //语言选项点击后关闭菜单（并保存选择）
                 document.querySelectorAll('#langDropdown [data-lang]').forEach(b => {
                     b.addEventListener('click', (e) => {
                         e.stopPropagation();
