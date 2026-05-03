@@ -118,6 +118,7 @@
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
         }
     </style>
+
     <!-- Navbar transition and expanded state -->
     <style>
         #siteNavbar {
@@ -126,7 +127,6 @@
             top: 20px;
             left: 25%;
             width: 50%;
-            height: 64px;
             background: rgba(26,31,58,0.22);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
@@ -136,8 +136,6 @@
             border-radius: 12px;
             padding-left: 20px;
             padding-right: 20px;
-            display: flex;
-            align-items: center;
         }
 
         /* Expanded state on scroll */
@@ -145,7 +143,6 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 64px;
             max-width: none;
             border-radius: 0;
             padding-left: 40px;
@@ -156,7 +153,7 @@
             box-shadow: 0 6px 24px rgba(0,0,0,0.45);
         }
 
-        /* Responsive adjustments from 导航栏.html */
+        /* Responsive adjustments */
         @media (max-width: 1200px) {
             #siteNavbar { left: 15%; width: 70%; padding-left: 24px; padding-right: 24px; }
             #siteNavbar.site-navbar-expanded { padding-left: 32px; padding-right: 32px; }
@@ -167,8 +164,8 @@
         }
 
         @media (max-width: 768px) {
-            #siteNavbar { left: 5%; width: 90%; height: 72px; }
-            #siteNavbar.site-navbar-expanded { height: 64px; padding-left: 24px; padding-right: 24px; }
+            #siteNavbar { left: 5%; width: 90%; }
+            #siteNavbar.site-navbar-expanded { height: auto; padding-left: 24px; padding-right: 24px; }
         }
 
         /* Language hover/expand styles */
@@ -178,24 +175,6 @@
         #langDropdown { transition: opacity 180ms cubic-bezier(0.2,0,0,1), transform 180ms; will-change: transform, opacity; z-index: 60; }
         .lang-wrapper.open #langDropdown, .lang-wrapper:hover #langDropdown { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
         .lang-wrapper #langDropdown { transform: translateY(-6px) scale(0.98); opacity: 0; pointer-events: none; }
-
-        /* 移动端菜单定位修*/
-        #siteNavbar #mobileMenu {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            left: 0;
-            width: 100%;
-            margin-top: 0;
-            z-index: 55;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-            border-radius: 12px;
-            background-clip: padding-box;
-        }
-
-        @media (max-width: 768px) {
-            /* 在小屏mobileMenu 左右对齐与导航栏一致 */
-            #siteNavbar #mobileMenu { left: 0; right: 0; width: 100%; }
-        }
     </style>
 </head>
 
@@ -205,6 +184,7 @@
     </a>
     <!-- 背景 -->
     <div class="fixed inset-0 z-0" style="background: linear-gradient(114514deg, rgba(10,14,39,0.85), rgba(26,31,58,0.55) 50%, rgba(10,14,39,0.85)),url('assets/images/15.png') center/cover no-repeat;"></div>
+
     <!-- 导航栏 -->
     <nav id="siteNavbar" class="fixed z-50 bg-black/50 backdrop-blur-md rounded-2xl px-4 py-2">
         <div class="container mx-auto px-4">
@@ -213,10 +193,9 @@
                 <a href="#home" class="flex items-center space-x-3">
                     <div class="w-11 h-11 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
                         <i class="fas fa-code text-lg"></i>
-                        </div>
+                    </div>
                     <span class="text-2xl font-system font-bold text-gradient">Hello！YiXian</span>
                 </a>
-
 
                 <!-- 桌面端导航栏菜单 - 大屏显示 -->
                 <div class="hidden md:flex items-center space-x-8">
@@ -242,7 +221,7 @@
             </div>
         </div>
 
-        <!-- 移动端导航菜单 -->
+        <!-- 移动端导航菜单（恢复为正常文档流，展开时撑开导航栏容器） -->
         <div id="mobileMenu" class="md:hidden hidden mt-4 bg-black/30 rounded-xl">
             <div class="container mx-auto px-4 py-4 flex flex-col space-y-3">
                 <a href="#home" data-i18n="nav.home" class="nav-link font-semibold text-lg hover:text-primary transition-colors duration-300 py-2">Home</a>
@@ -297,7 +276,7 @@
                         <p class="text-primary font-medium text-sm mt-1">junior Developer | 玩机爱好者 | 学生 | 技术爱好者</p>
                     </div>
 
-                <!-- 快速信息网格 -->
+                    <!-- 快速信息网格 -->
                     <!-- 基本信息卡片 -->
                     <div class="card p-6 mt-4">
                         <h4 data-i18n="basic.title" class="text-lg font-system font-bold text-secondary mb-4">Basic Information</h4>
@@ -321,7 +300,8 @@
                             <span class="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs">Photography</span>
                         </div>
                     </div>
-            </div>
+                </div>
+
                 <!-- 个人简介卡片 -->
                 <div class="md:col-span-2 mx-auto">
                     <div class="card p-8 mb-8">
@@ -336,6 +316,7 @@
             </div>
         </div>
     </section>
+
     <!-- Contact Me页 -->
     <section id="contact" class="py-20 relative z-10">
         <div class="container mx-auto px-6">
@@ -399,7 +380,7 @@
 
     <!-- JavaScript功能脚本 -->
     <script>
-        //移动端菜单切换功能
+        // 移动端菜单切换功能
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
 
@@ -410,7 +391,7 @@
             menuBtn.setAttribute('aria-expanded', isExpanded);
         });
 
-        //平滑滚动功能 - 点击导航链接平滑滚动到对应区域
+        // 平滑滚动功能 - 点击导航链接平滑滚动到对应区域
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -429,7 +410,7 @@
             });
         });
 
-        //滚动动画观察器 - 元素进入视口时添加动画
+        // 滚动动画观察器 - 元素进入视口时添加动画
         function observeElements() {
             // 创建IntersectionObserver实例
             const observer = new IntersectionObserver((entries) => {
@@ -443,13 +424,13 @@
                 threshold: 0.1 // 元素可见10%时触发
             });
 
-            //观察所有卡片
+            // 观察所有卡片
             document.querySelectorAll('.card').forEach(el => {
                 observer.observe(el);
             });
         }
 
-        //页面加载完成后初始化所有功能
+        // 页面加载完成后初始化所有功能
         window.addEventListener('load', () => {
             observeElements();    // 初始化滚动动画观察器
         });
@@ -487,16 +468,14 @@
                 }
 
                 if(langBtn){
-                    //点击切换为“持久打开(open-persistent)”状态，不与悬浮冲突
+                    // 点击切换为"持久打开(open-persistent)"状态，不与悬浮冲突
                     langBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         if(!langWrapper) return;
                         const nowPersistent = langWrapper.classList.toggle('open-persistent');
                         if(nowPersistent) {
-                            //保证显示
                             langWrapper.classList.add('open');
                         } else {
-                            //如果未悬浮，则隐藏
                             if(!langWrapper.dataset.hover || langWrapper.dataset.hover !== 'true') {
                                 langWrapper.classList.remove('open');
                             }
@@ -505,7 +484,7 @@
                     });
                 }
 
-                //点击页面空白处关闭
+                // 点击页面空白处关闭
                 document.addEventListener('click', () => {
                     if(langWrapper) {
                         langWrapper.classList.remove('open');
@@ -514,7 +493,7 @@
                     }
                 });
 
-                //语言选项点击后关闭菜单（并保存选择）
+                // 语言选项点击后关闭菜单（并保存选择）
                 document.querySelectorAll('#langDropdown [data-lang]').forEach(b => {
                     b.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -537,7 +516,6 @@
                 });
                 langWrapper.addEventListener('mouseleave', () => {
                     langWrapper.dataset.hover = 'false';
-                    // 仅当未设置持久打开时才收起
                     if(!langWrapper.classList.contains('open-persistent')) {
                         langWrapper.classList.remove('open');
                         langBtn && langBtn.setAttribute('aria-expanded','false');
